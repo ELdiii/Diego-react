@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Tesco",
+    "lat": 48.593484,
+    "lon": 18.852234,
+    "desc": "0"
+  },
+  {
+    "name": "SLOVALCO Arena",
+    "lat": 48.587627,
+    "lon": 18.847408,
+    "desc": "1"
+  },
+  {
+    "name": "Park Š. Moysesa",
+    "lat": 48.58512,
+    "lon": 18.864843,
+    "desc": "2"
+  },
+  {
+    "name": "Oddychova Zona",
+    "lat": 48.597061,
+    "lon": 18.842757,
+    "desc": "3"
+  }
+]

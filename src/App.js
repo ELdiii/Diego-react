@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import LoginPage from "./components/LoginPage";
 import MainLayout from "./components/MainLayout";
 import { supabase } from "./lib/helper/supabaseClient";
 
@@ -24,7 +25,6 @@ export default function App() {
           }
         }
       );
-      authListener.unsubscribe();
     };
     fetchData();
   }, []);
@@ -45,9 +45,9 @@ export default function App() {
             <MainLayout />
           </div>
         ) : (
-          <button className="bg-yellow-500" onClick={login}>
-            Login with Github!
-          </button>
+          <div>
+          <LoginPage logInFunc={login} logOutFunc={logOut}/>
+          </div>
         )}
       </div>
     </div>
