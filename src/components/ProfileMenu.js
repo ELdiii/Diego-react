@@ -3,16 +3,16 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export function ProfileMenu({isOpen}) {
-  const [Y, setY] = useState(isOpen);
+  const [isOpenState, setIsOpenState] = useState(isOpen);
 
-  useEffect(() => { setY(isOpen) }, [isOpen]);
+  useEffect(() => { setIsOpenState(isOpen) }, [isOpen]);
 
 
   return (
     <motion.div
       className="absolute bottom-2 left-1/2 z-30 flex h-80 w-60  items-start justify-center overflow-hidden rounded-3xl border-2 border-main_light_blue bg-main_dark_blue text-white"
       initial={{ y: 350, x: "-50%" }}
-      animate={{ y: Y ? 0 : 350, x: "-50%" }}
+      animate={{ y: isOpenState ? 0 : 350, x: "-50%" }}
       exit={{ y: 350, x: "-50%" }}
     >
       {/* profile picture and name  */}
