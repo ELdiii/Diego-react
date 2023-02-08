@@ -52,6 +52,7 @@ export default function MainLayout() {
     }).on("geolocate", function (e) {
       setLng(e.coords.longitude.toFixed(4));
       setLat(e.coords.latitude.toFixed(4));
+      calculateDistance();
     });
     map.current.addControl(geolocate);
     //trigger geolocate on map load
@@ -78,12 +79,6 @@ export default function MainLayout() {
     map.current.on("move", () => {
       setZoom(map.current.getZoom().toFixed(2));
 
-      let line = turf.lineString([
-        [lng, lat],
-        [missions[currentObjective].lon, missions[currentObjective].lat],
-      ]);
-      setDistance(turf.length(line, turfOptions).toFixed(0));
-
       if (distance < 20) {
         // player is near the objective
         setIsNearObjective(true);
@@ -92,6 +87,14 @@ export default function MainLayout() {
       }
     });
   });
+
+  function calculateDistance() {
+    let line = turf.lineString([
+      [lng, lat],
+      [missions[currentObjective].lon, missions[currentObjective].lat],
+    ]);
+    setDistance(turf.length(line, turfOptions).toFixed(0));
+  }
 
   //handler for button confirming the objective was delivered
   function deliveryButtonHandler() {
