@@ -4,6 +4,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import "mapbox-gl/dist/mapbox-gl.css";
 import * as turf from "@turf/turf";
 import { motion } from "framer-motion";
+import { ProfileMenu } from "./ProfileMenu";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_GL_KEY;
 
@@ -23,6 +24,8 @@ export default function MainLayout() {
   const [distance, setDistance] = useState(0);
   const [isNearObjective, setIsNearObjective] = useState(false);
 
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+
   //markers json
   const missions = require("../assets/markers.json");
 
@@ -33,25 +36,28 @@ export default function MainLayout() {
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v12",
       center: [lng, lat],
-      zoom: zoom,
+      zoom: zoom, // pitch in degrees
     });
   });
 
   //register geolocate control
   useEffect(() => {
-    map.current.addControl(
-      new mapboxgl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true,
-        },
-        trackUserLocation: true,
-        showUserHeading: true,
-        showAccuracyCircle: false,
-      }).on("geolocate", function (e) {
-        setLng(e.coords.longitude.toFixed(4));
-        setLat(e.coords.latitude.toFixed(4));
-      })
-    );
+    let geolocate = new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      trackUserLocation: true,
+      showUserHeading: true,
+      showAccuracyCircle: false,
+    }).on("geolocate", function (e) {
+      setLng(e.coords.longitude.toFixed(4));
+      setLat(e.coords.latitude.toFixed(4));
+    });
+    map.current.addControl(geolocate);
+    //trigger geolocate on map load
+    map.current.on("load", function () {
+      geolocate.trigger();
+    });
   });
 
   //marker for the current objective
@@ -99,30 +105,36 @@ export default function MainLayout() {
     setNextObjective(nextObjective + 1);
   }
 
+  function handleIsProfileMenuOpen() {
+    setIsProfileMenuOpen(!isProfileMenuOpen);
+    console.log(isProfileMenuOpen);
+  }
+
   return (
     <>
-      <div className="sm:grid sm:h-screen sm:place-content-center sm:bg-stone-600 w-screen ">
-        <div className="grid h-screen max-w-screen-sm grid-rows-[1fr_auto] bg-main_dark_blue sm:max-h-[800px] sm:w-[450px] relative">
+      <div className="w-screen sm:grid sm:h-screen sm:place-content-center sm:bg-stone-600 ">
+        <div className="relative grid h-screen max-w-screen-sm grid-rows-[1fr_auto] bg-main_dark_blue sm:max-h-[800px] sm:w-[450px]">
           <div
             ref={mapContainer}
-            className="m-4 border-solid border-4 border-main_light_blue rounded-3xl z-0 relative mb-[3.6rem]"
+            className="relative z-0 m-4 mb-[3.6rem] rounded-3xl border-4 border-solid border-main_light_blue"
           >
             {isNearObjective && (
               <motion.button
                 initial={{ y: 50, x: "-50%" }}
                 animate={{ y: [30, 15, 30] }}
-                transition={{ duration: 2, repeat: Infinity }}  
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 bg-main_dark_blue text-white pb-8 px-8 pt-2 font-black rounded-xl border-solid border-4 border-main_light_blue will-change-transform"
+                transition={{ duration: 2, repeat: Infinity }}
+                className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2 rounded-xl border-4 border-solid border-main_light_blue bg-gradient-to-r from-orange-400 to-yellow-400 px-8 pb-8 pt-2 font-black text-black will-change-transform"
                 onClick={deliveryButtonHandler}
               >
                 Confirm
               </motion.button>
             )}
-            <div className="absolute z-10 top-4 left-2 text-xs bg-main_dark_blue text-white p-2 px-3 font-bold rounded-xl border-solid border-4 border-main_light_blue">
+            <ProfileMenu isOpen={isProfileMenuOpen} />
+            <div className="absolute top-4 left-2 z-10 rounded-xl border-4 border-solid border-main_light_blue bg-main_dark_blue p-2 px-3 text-xs font-bold text-white">
               {`Current Objective: ${missions[currentObjective].name} (${distance} m)`}
             </div>
           </div>
-          <GameMenu />
+          <GameMenu handleIsProfileMenuOpen={handleIsProfileMenuOpen} />
         </div>
       </div>
     </>
