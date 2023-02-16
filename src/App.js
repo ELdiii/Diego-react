@@ -42,11 +42,11 @@ export default function App() {
       <div className="">
         {user ? (
           <div className="grid ">
-            <MainLayout />
+            <MainLayout logOutFunc={logOut}/>
           </div>
         ) : (
           <div>
-          <LoginPage logInFunc={login} logOutFunc={logOut}/>
+          <LoginPage logInFunc={login} />
           </div>
         )}
       </div>

@@ -3,7 +3,8 @@
     "name": "Go Back to Depo",
     "lat": 48.587415,
     "lon": 18.853731,
-    "desc": "-1"
+    "desc": "-1",
+    "about": "Return to the starting point to request another delivery!"
   },
   
   {

@@ -8,7 +8,7 @@ import { ProfileMenu } from "./ProfileMenu";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_GL_KEY;
 
-export default function MainLayout() {
+export default function MainLayout({ logOutFunc }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const turfOptions = { units: "meters" };
@@ -52,11 +52,12 @@ export default function MainLayout() {
     }).on("geolocate", function (e) {
       setLng(e.coords.longitude.toFixed(4));
       setLat(e.coords.latitude.toFixed(4));
+      // map.current.setZoom(16);
     });
     map.current.addControl(geolocate);
     //trigger geolocate on map load
     map.current.on("load", function () {
-      geolocate.trigger();
+     geolocate.trigger();
     });
   });
 
@@ -92,7 +93,6 @@ export default function MainLayout() {
       [missions[currentObjective].lon, missions[currentObjective].lat],
     ]);
     setDistance(turf.length(line, turfOptions).toFixed(0));
-    console.log(distance);
     if (distance < 20) {
       // player is near the objective
       setIsNearObjective(true);
@@ -145,12 +145,12 @@ export default function MainLayout() {
                   : "Hand in delivery"}
               </motion.button>
             )}
-            <ProfileMenu isOpen={isProfileMenuOpen} />
+            <ProfileMenu isOpen={isProfileMenuOpen} currentObjective={missions[currentObjective]}/>
             <div className="absolute top-4 left-2 z-10 rounded-xl border-4 border-solid border-main_light_blue bg-main_dark_blue p-2 px-3 text-xs font-bold text-white">
               {`Current Objective: ${missions[currentObjective].name} (${distance} m)`}
             </div>
           </div>
-          <GameMenu handleIsProfileMenuOpen={handleIsProfileMenuOpen} />
+          <GameMenu handleIsProfileMenuOpen={handleIsProfileMenuOpen} logOutFunc={logOutFunc}/>
         </div>
       </div>
     </>
