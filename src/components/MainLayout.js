@@ -34,7 +34,7 @@ export default function MainLayout() {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v12",
+      style: "mapbox://styles/eldiii/cldx1dxbe001s01qrb6i5qeoz",
       center: [lng, lat],
       zoom: zoom, // pitch in degrees
     });
@@ -52,7 +52,6 @@ export default function MainLayout() {
     }).on("geolocate", function (e) {
       setLng(e.coords.longitude.toFixed(4));
       setLat(e.coords.latitude.toFixed(4));
-      calculateDistance();
     });
     map.current.addControl(geolocate);
     //trigger geolocate on map load
@@ -64,7 +63,12 @@ export default function MainLayout() {
   //marker for the current objective
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
-    const marker = new mapboxgl.Marker()
+    const marker = new mapboxgl.Marker({
+      color: "#8ECAE6",
+      scale: 0.8,
+      anchor: "bottom",
+      rotation: 22.5,
+    })
       .setLngLat([
         missions[currentObjective].lon,
         missions[currentObjective].lat,
@@ -78,13 +82,7 @@ export default function MainLayout() {
     if (!map.current) return; // wait for map to initialize
     map.current.on("move", () => {
       setZoom(map.current.getZoom().toFixed(2));
-
-      if (distance < 20) {
-        // player is near the objective
-        setIsNearObjective(true);
-      } else {
-        setIsNearObjective(false);
-      }
+      calculateDistance();
     });
   });
 
@@ -94,17 +92,26 @@ export default function MainLayout() {
       [missions[currentObjective].lon, missions[currentObjective].lat],
     ]);
     setDistance(turf.length(line, turfOptions).toFixed(0));
+    console.log(distance);
+    if (distance < 20) {
+      // player is near the objective
+      setIsNearObjective(true);
+    } else {
+      setIsNearObjective(false);
+    }
   }
 
   //handler for button confirming the objective was delivered
   function deliveryButtonHandler() {
     setCurrentObjective(0);
+    calculateDistance();
     console.log(currentObjective);
   }
 
   //handler for button confirming the next objective has been picked up
   function nextObjectiveHandler() {
     setCurrentObjective(nextObjective);
+    calculateDistance();
     setNextObjective(nextObjective + 1);
   }
 
@@ -126,10 +133,16 @@ export default function MainLayout() {
                 initial={{ y: 50, x: "-50%" }}
                 animate={{ y: [30, 15, 30] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2 rounded-xl border-4 border-solid border-main_light_blue bg-gradient-to-r from-orange-400 to-yellow-400 px-8 pb-8 pt-2 font-black text-black will-change-transform"
-                onClick={deliveryButtonHandler}
+                className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2 rounded-xl border-4 border-solid border-main_light_blue bg-gradient-to-r from-orange-400 to-yellow-400 px-6 pb-8 pt-2 font-black text-black will-change-transform"
+                onClick={
+                  currentObjective === 0
+                    ? nextObjectiveHandler
+                    : deliveryButtonHandler
+                }
               >
-                Confirm
+                {currentObjective === 0
+                  ? "Pick up next delivery"
+                  : "Hand in delivery"}
               </motion.button>
             )}
             <ProfileMenu isOpen={isProfileMenuOpen} />
