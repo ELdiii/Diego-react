@@ -125,7 +125,7 @@ export default function MainLayout({ logOutFunc }) {
 
   //handler for button confirming the objective was delivered
   function deliveryButtonHandler() {
-    setCurrentSentence(dialogues[currentObjective][currentSentenceIndex]);
+    setCurrentSentence("Press the screen to start dialogue");
     setIsDialogOpen(true);
     calculateDistance();
     console.log(currentObjective);
