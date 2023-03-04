@@ -35,7 +35,7 @@ export default function MainLayout({ logOutFunc }) {
   const dialogues = require("../assets/dialogues.json");
 
   const [currectSentence, setCurrentSentence] = useState(
-    "Tasdfkhasdfbhsdfhgkghsdfk"
+    "Press the screen to start dialogue"
   );
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
 
