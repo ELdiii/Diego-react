@@ -35,7 +35,7 @@ export default function MainLayout({ logOutFunc }) {
   const dialogues = require("../assets/dialogues.json");
 
   const [currectSentence, setCurrentSentence] = useState(
-    "Press the screen to start dialogue"
+    "<Press the screen to start dialogue>"
   );
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
 
@@ -62,6 +62,7 @@ export default function MainLayout({ logOutFunc }) {
     }).on("geolocate", function (e) {
       setLng(e.coords.longitude.toFixed(4));
       setLat(e.coords.latitude.toFixed(4));
+      console.log("geolocated");
       // map.current.setZoom(16);
     });
     map.current.addControl(geolocate);
@@ -86,7 +87,9 @@ export default function MainLayout({ logOutFunc }) {
       ])
       .addTo(map.current);
     //remove last marker on re-render
-    return () => marker.remove();
+    return () => {
+      marker.remove();
+    };
   }, [currentObjective, missions]);
 
   useEffect(() => {
@@ -97,17 +100,25 @@ export default function MainLayout({ logOutFunc }) {
     });
   });
 
+  useEffect(() => {
+    calculateDistance();
+  }, [currentObjective]);
+
   function calculateDistance() {
     let line = turf.lineString([
       [lng, lat],
       [missions[currentObjective].lon, missions[currentObjective].lat],
     ]);
     setDistance(turf.length(line, turfOptions).toFixed(0));
-    if (distance < 20) {
+    console.log(line);
+    if (turf.length(line, turfOptions).toFixed(0) < 20) {
       // player is near the objective
       setIsNearObjective(true);
+      // console.log("distance is:" + distance);
+      // console.log(line);
     } else {
       setIsNearObjective(false);
+      // console.log("F sdistance is:" + distance);
     }
   }
 
@@ -120,27 +131,25 @@ export default function MainLayout({ logOutFunc }) {
     } else {
       setCurrentSentenceIndex(0);
       setIsDialogOpen(false);
+      setCurrentObjective(0);
     }
   }
 
   //handler for button confirming the objective was delivered
   function deliveryButtonHandler() {
-    setCurrentSentence("Press the screen to start dialogue");
     setIsDialogOpen(true);
-    calculateDistance();
-    console.log(currentObjective);
+    // console.log(currentObjective);
   }
 
   //handler for button confirming the next objective has been picked up
   function nextObjectiveHandler() {
-    setCurrentObjective(nextObjective);
-    calculateDistance();
+    setCurrentObjective(nextObjective); //1
     setNextObjective(nextObjective + 1);
   }
 
   function handleIsProfileMenuOpen() {
     setIsProfileMenuOpen(!isProfileMenuOpen);
-    console.log(isProfileMenuOpen);
+    // console.log(isProfileMenuOpen);
   }
 
   return (
