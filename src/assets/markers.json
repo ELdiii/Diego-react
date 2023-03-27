@@ -1,41 +1,81 @@
 [
   {
-    "name": "Go Back to Depo",
-    "lat": 48.587415,
-    "lon": 18.853731,
-    "desc": "-1",
-    "about": "Return to the starting point to request another delivery!"
-  },
-
-  {
     "name": "Tesco",
     "lat": 48.593484,
     "lon": 18.852234,
-    "desc": "1"
+    "desc": "0",
+    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
   },
+
   {
-    "name": "Go Back to Depo",
-    "lat": 48.587415,
-    "lon": 18.853731,
-    "desc": "-1",
-    "about": "Return to the starting point to request another delivery!"
+    "name": "SLOVALCO Arena",
+    "lat": 48.587627,
+    "lon": 18.847408,
+    "desc": "1",
+    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
   },
   {
     "name": "SLOVALCO Arena",
     "lat": 48.587627,
     "lon": 18.847408,
-    "desc": "2"
+    "desc": "2",
+    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
   },
   {
     "name": "Park Š. Moysesa",
     "lat": 48.58512,
     "lon": 18.864843,
-    "desc": "3"
+    "desc": "3",
+    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
   },
   {
     "name": "Oddychova Zona",
     "lat": 48.597061,
     "lon": 18.842757,
-    "desc": "4"
+    "desc": "4",
+    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
+  },
+  {
+    "name": "Oddychova Zona2",
+    "lat": 48.597061,
+    "lon": 18.842757,
+    "desc": "4",
+    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
+  },
+  {
+    "name": "Oddychova Zona3",
+    "lat": 48.597061,
+    "lon": 18.842757,
+    "desc": "4",
+    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
+  },
+  {
+    "name": "Oddychova Zona4",
+    "lat": 48.597061,
+    "lon": 18.842757,
+    "desc": "4",
+    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
+  },
+  {
+    "name": "Oddychova Zona4",
+    "lat": 48.597061,
+    "lon": 18.842757,
+    "desc": "4",
+    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
+  },
+  {
+    "name": "Oddychova Zona4",
+    "lat": 48.597061,
+    "lon": 18.842757,
+    "desc": "4",
+    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
+  },
+  {
+    "name": "Go Back to Depo",
+    "lat": 48.587415,
+    "lon": 18.853731,
+    "desc": "0",
+    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"],
+    "about": "Return to the starting point to request another delivery!"
   }
 ]

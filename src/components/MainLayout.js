@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { ProfileMenu } from "./ProfileMenu";
 import dzedo from "../assets/dzedo.png";
 
+import { supabase } from "../lib/helper/supabaseClient";
+
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_GL_KEY;
 
 export default function MainLayout({ logOutFunc }) {
@@ -22,6 +24,7 @@ export default function MainLayout({ logOutFunc }) {
   //game related state
   const [currentObjective, setCurrentObjective] = useState(0);
   const [nextObjective, setNextObjective] = useState(1);
+  const [objectives, setObjectives] = useState([0, 0, 0, 0, 0]);
   const [distance, setDistance] = useState(0);
   const [isNearObjective, setIsNearObjective] = useState(false);
 
@@ -38,6 +41,52 @@ export default function MainLayout({ logOutFunc }) {
     "<Press the screen to start dialogue>"
   );
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
+
+  //creating data for user in database
+  useEffect(() => {
+    for (var randomMissions = [], i = 0; i < 5; ++i) randomMissions[i] = i;
+    randomMissions = generateMissions(randomMissions);
+
+    const fetchData = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        const { data, error } = await supabase
+          .from("main_data")
+          .select("*")
+          .eq("player_id", user.id);
+
+        if (error) {
+          console.log(error);
+          return;
+        }
+
+        // this will only run if the user doesnt have a record in the main database
+        if (data.length === 0) {
+          await supabase.from("main_data").insert([
+            {
+              player_id: user.id,
+              picked_missions: randomMissions,
+              current_mission: 0,
+            },
+          ]);
+          return;
+        }
+        // this will run if the user has a record in the main database
+        const picked_missions = data[0].picked_missions;
+        setObjectives(picked_missions);
+        setCurrentObjective(picked_missions[data[0].current_mission]);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    getNextMission();
+  }, []);
 
   //initialize map
   useEffect(() => {
@@ -62,8 +111,6 @@ export default function MainLayout({ logOutFunc }) {
     }).on("geolocate", function (e) {
       setLng(e.coords.longitude.toFixed(4));
       setLat(e.coords.latitude.toFixed(4));
-      console.log("geolocated");
-      // map.current.setZoom(16);
     });
     map.current.addControl(geolocate);
     //trigger geolocate on map load
@@ -92,6 +139,7 @@ export default function MainLayout({ logOutFunc }) {
     };
   }, [currentObjective, missions]);
 
+  //set zoom for map
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
     map.current.on("move", () => {
@@ -99,57 +147,101 @@ export default function MainLayout({ logOutFunc }) {
       calculateDistance();
     });
   });
-
+  //calculate distance on objective change
   useEffect(() => {
     calculateDistance();
   }, [currentObjective]);
 
+  //helper function to generate array of 5 elements in random order
+  function generateMissions(array) {
+    var tmp,
+      current,
+      top = array.length;
+    if (top)
+      while (--top) {
+        current = Math.floor(Math.random() * (top + 1));
+        tmp = array[current];
+        array[current] = array[top];
+        array[top] = tmp;
+      }
+    return array;
+  }
+  //calculate distance between player and objective
   function calculateDistance() {
     let line = turf.lineString([
       [lng, lat],
       [missions[currentObjective].lon, missions[currentObjective].lat],
     ]);
     setDistance(turf.length(line, turfOptions).toFixed(0));
-    console.log(line);
+
     if (turf.length(line, turfOptions).toFixed(0) < 20) {
       // player is near the objective
       setIsNearObjective(true);
-      // console.log("distance is:" + distance);
-      // console.log(line);
-    } else {
-      setIsNearObjective(false);
-      // console.log("F sdistance is:" + distance);
+      return;
     }
+    setIsNearObjective(false);
   }
 
-  function handleDialogueText() {
-    //ked skonci dialog tak setnut currentobjective na 0
-    console.log("clicked");
-    if (currentSentenceIndex < dialogues[currentObjective].length) {
+  async function handleDialogueText() {
+    //ked je otvoreny dialog > click behavior
+    if (currentSentenceIndex < missions[currentObjective].dialogues.length) {
       setCurrentSentenceIndex(currentSentenceIndex + 1);
-      setCurrentSentence(dialogues[currentObjective][currentSentenceIndex]);
-    } else {
-      setCurrentSentenceIndex(0);
-      setIsDialogOpen(false);
-      setCurrentObjective(0);
+      setCurrentSentence(
+        missions[currentObjective].dialogues[currentSentenceIndex]
+      );
+      return;
     }
+    //ked skonci dialog
+    setCurrentSentenceIndex(0);
+    setIsDialogOpen(false);
+    if (currentObjective >= 4) {
+      setCurrentObjective(objectives[10]);
+      updateCurrentMission();
+      return;
+    }
+    setCurrentObjective(objectives[await getNextMission()]);
+    updateCurrentMission();
   }
 
   //handler for button confirming the objective was delivered
   function deliveryButtonHandler() {
     setIsDialogOpen(true);
-    // console.log(currentObjective);
   }
 
-  //handler for button confirming the next objective has been picked up
+  //handler for button confirming the next item has been picked up
   function nextObjectiveHandler() {
-    setCurrentObjective(nextObjective); //1
-    setNextObjective(nextObjective + 1);
+    setIsDialogOpen(true);
   }
 
   function handleIsProfileMenuOpen() {
     setIsProfileMenuOpen(!isProfileMenuOpen);
-    // console.log(isProfileMenuOpen);
+  }
+
+  //get next mission from database
+  async function getNextMission() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    const result = await supabase
+      .from("main_data")
+      .select("current_mission")
+      .eq("player_id", user.id);
+    const a = result.data[0].current_mission + 1;
+    return a;
+  }
+
+  async function updateCurrentMission() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    const result = await supabase
+      .from("main_data")
+      .select("current_mission")
+      .eq("player_id", user.id);
+    await supabase
+      .from("main_data")
+      .update({ current_mission: result.data[0].current_mission + 1 })
+      .eq("player_id", user.id);
   }
 
   return (
@@ -179,15 +271,9 @@ export default function MainLayout({ logOutFunc }) {
                 animate={{ y: [30, 15, 30] }}
                 transition={{ duration: 2, repeat: Infinity }}
                 className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2 rounded-xl border-4 border-solid border-main_light_blue bg-gradient-to-r from-orange-400 to-yellow-400 px-6 pb-8 pt-2 font-black text-black will-change-transform"
-                onClick={
-                  currentObjective === 0
-                    ? nextObjectiveHandler
-                    : deliveryButtonHandler
-                }
+                onClick={deliveryButtonHandler}
               >
-                {currentObjective === 0
-                  ? "Pick up next delivery"
-                  : "Hand in delivery"}
+                Pick up the item
               </motion.button>
             )}
             <ProfileMenu
