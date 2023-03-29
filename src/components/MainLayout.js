@@ -156,6 +156,7 @@ export default function MainLayout({ logOutFunc }) {
 
   //testing useeffect
   useEffect(() => {
+    console.log(currentObjective);
 
   }, []);
 
@@ -169,6 +170,8 @@ export default function MainLayout({ logOutFunc }) {
         arr.push(num);
       }
     }
+    arr.push(9);
+    arr.push(10);
     return arr;
   }
   //calculate distance between player and objective
@@ -199,11 +202,6 @@ export default function MainLayout({ logOutFunc }) {
     //ked skonci dialog
     setCurrentSentenceIndex(0);
     setIsDialogOpen(false);
-    if (currentObjective >= 5) {
-      setCurrentObjective(pickedMissions[9]);
-      updateCurrentMission();
-      return;
-    }
     setCurrentObjective(pickedMissions[(await getCurrentMission()) + 1]);
     updateCurrentMission();
   }

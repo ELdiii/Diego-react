@@ -109,5 +109,13 @@
     "desc": "Odovzdať nazbierané predmety",
     "item": "none",
     "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
+  },
+  {
+    "name": "GAME ENDED",
+    "lat": 48,
+    "lon": 18,
+    "desc": "Odovzdať nazbierané predmety",
+    "item": "none",
+    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
   }
 ]
