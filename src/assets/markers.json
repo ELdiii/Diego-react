@@ -1,81 +1,107 @@
 [
   {
-    "name": "Tesco",
-    "lat": 48.593484,
-    "lon": 18.852234,
-    "desc": "0",
-    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
+    "name": "INTRO",
+    "lat": 45,
+    "lon": 18,
+    "desc": "Vyzdvihnúť predment",
+    "item": "Glukomer",
+    "dialogues": [
+      "Diego, po meste sa rozsypali krabice s lekárskym vybavením. Lietadlo ktoré ich nieslo havarovalo nad mestom a núdzovo pristálo na poli.",
+      "Súrne potrebujeme pomoc. Pomôž nám pozbierať všetky krabice a odovzdať ich do nemocnice.",
+      "Využi svoje znalosti mesta a zozbieraj všetky krabice čo najskôr!"
+    ]
+  },
+  {
+    "name": "Plážové kúpalisko",
+    "lat": 48.586,
+    "lon": 18.867,
+    "desc": "Vyzdvihnúť predment",
+    "item": "Glukomer",
+    "dialogues": [
+      "Vyzdvihol si predmet <Glukomer>.",
+      "Toto zariadenie dokáže merať hodnotu cukru v krvi.",
+      "Pre správne meranie stačí kvapka krvi a proces merania trvá pár sekúnd."
+    ]
   },
 
   {
-    "name": "SLOVALCO Arena",
-    "lat": 48.587627,
-    "lon": 18.847408,
-    "desc": "1",
+    "name": "Kaštieľ",
+    "lat": 48.585,
+    "lon": 18.863,
+    "desc": "Vyzdvihnúť predment",
+    "item": "Fonendoskop",
+    "dialogues": [
+      "Vyzdvihol si predmet <Fonendoskop>.",
+      "DSlúži na sledovanie a zosilnenie zvukov a činnosti telesných orgánov."
+    ]
+  },
+  {
+    "name": "Mestská športová hala",
+    "lat": 48.587,
+    "lon": 18.862,
+    "desc": "Vyzdvihnúť predment",
+    "item": "Skalpel",
+    "dialogues": [
+      "Vyzdvihol si predmet <Skalpel>. ",
+      "Jedná sa o ostrý predmet slúžiaci na rezanie tkaniva pri operáciách."
+    ]
+  },
+  {
+    "name": "Pump track dráha",
+    "lat": 48.585,
+    "lon": 18.855,
+    "desc": "Vyzdvihnúť predment",
+    "item": "Obväzy",
+    "dialogues": [
+      "Vyzdvihol si predmet <krabica obväzov>.",
+      "Obväzy sa používajú na sterilné zakrytie rany alebo zastavenie krvácania."
+    ]
+  },
+  {
+    "name": "planetárium",
+    "lat": 48.586,
+    "lon": 18.851,
+    "desc": "Vyzdvihnúť predment",
+    "item": "Vyšetrovacie rukavice",
+    "dialogues": [
+      "Vyzdvihol si predmet <Vyšetrovacie rukavice>.",
+      "Rukavice chránia lekára pred baktériami pacienta."
+    ]
+  },
+  {
+    "name": "Slovalco Aréna",
+    "lat": 48.586,
+    "lon": 18.846,
+    "desc": "Vyzdvihnúť predment",
+    "item": "Tlakomer",
+    "dialogues": [
+      "Vyzdvihol si predmet <Tlakomer>.",
+      "Používa sa na meranie tlaku srdca a krvi.",
+      "V niektorých prípadoch aj na meranie tepu."
+    ]
+  },
+  {
+    "name": "Plaváreň",
+    "lat": 48.592,
+    "lon": 18.844,
+    "desc": "Vyzdvihnúť predment",
+    "item": "Dezinfekcia",
     "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
   },
   {
-    "name": "SLOVALCO Arena",
-    "lat": 48.587627,
-    "lon": 18.847408,
-    "desc": "2",
+    "name": "Skatepark",
+    "lat": 48.6,
+    "lon": 18.84,
+    "desc": "Vyzdvihnúť predment",
+    "item": "Defibrilátor",
     "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
   },
   {
-    "name": "Park Š. Moysesa",
-    "lat": 48.58512,
-    "lon": 18.864843,
-    "desc": "3",
+    "name": "Nemocnica",
+    "lat": 48.59,
+    "lon": 18.842,
+    "desc": "Odovzdať nazbierané predmety",
+    "item": "none",
     "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
-  },
-  {
-    "name": "Oddychova Zona",
-    "lat": 48.597061,
-    "lon": 18.842757,
-    "desc": "4",
-    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
-  },
-  {
-    "name": "Oddychova Zona2",
-    "lat": 48.597061,
-    "lon": 18.842757,
-    "desc": "4",
-    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
-  },
-  {
-    "name": "Oddychova Zona3",
-    "lat": 48.597061,
-    "lon": 18.842757,
-    "desc": "4",
-    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
-  },
-  {
-    "name": "Oddychova Zona4",
-    "lat": 48.597061,
-    "lon": 18.842757,
-    "desc": "4",
-    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
-  },
-  {
-    "name": "Oddychova Zona4",
-    "lat": 48.597061,
-    "lon": 18.842757,
-    "desc": "4",
-    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
-  },
-  {
-    "name": "Oddychova Zona4",
-    "lat": 48.597061,
-    "lon": 18.842757,
-    "desc": "4",
-    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
-  },
-  {
-    "name": "Go Back to Depo",
-    "lat": 48.587415,
-    "lon": 18.853731,
-    "desc": "0",
-    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"],
-    "about": "Return to the starting point to request another delivery!"
   }
 ]

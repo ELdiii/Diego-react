@@ -22,31 +22,28 @@ export default function MainLayout({ logOutFunc }) {
   const [zoom, setZoom] = useState(16);
 
   //game related state
-  const [currentObjective, setCurrentObjective] = useState(0);
-  const [nextObjective, setNextObjective] = useState(1);
-  const [objectives, setObjectives] = useState([0, 0, 0, 0, 0]);
+  const [currentObjective, setCurrentObjective] = useState(1);
+  const [pickedMissions, setPickedMissions] = useState([0, 0, 0, 0, 0]);
   const [distance, setDistance] = useState(0);
-  const [isNearObjective, setIsNearObjective] = useState(false);
+  const [isNearMission, setIsNearMission] = useState(false);
 
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   //markers json
   const missions = require("../assets/markers.json");
-
-  const dialogues = require("../assets/dialogues.json");
 
   const [currectSentence, setCurrentSentence] = useState(
     "<Press the screen to start dialogue>"
   );
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
 
+  useEffect(() => {
+    console.log();
+  }, []);
+
   //creating data for user in database
   useEffect(() => {
-    for (var randomMissions = [], i = 0; i < 5; ++i) randomMissions[i] = i;
-    randomMissions = generateMissions(randomMissions);
-
     const fetchData = async () => {
       const {
         data: { user },
@@ -68,7 +65,7 @@ export default function MainLayout({ logOutFunc }) {
           await supabase.from("main_data").insert([
             {
               player_id: user.id,
-              picked_missions: randomMissions,
+              picked_missions: generateMissions(),
               current_mission: 0,
             },
           ]);
@@ -76,16 +73,12 @@ export default function MainLayout({ logOutFunc }) {
         }
         // this will run if the user has a record in the main database
         const picked_missions = data[0].picked_missions;
-        setObjectives(picked_missions);
+        setPickedMissions(picked_missions);
         setCurrentObjective(picked_missions[data[0].current_mission]);
       }
     };
 
     fetchData();
-  }, []);
-
-  useEffect(() => {
-    getNextMission();
   }, []);
 
   //initialize map
@@ -117,7 +110,7 @@ export default function MainLayout({ logOutFunc }) {
     map.current.on("load", function () {
       geolocate.trigger();
     });
-  });
+  }, []);
 
   //marker for the current objective
   useEffect(() => {
@@ -147,24 +140,32 @@ export default function MainLayout({ logOutFunc }) {
       calculateDistance();
     });
   });
+
   //calculate distance on objective change
   useEffect(() => {
     calculateDistance();
   }, [currentObjective]);
 
+  useEffect(() => {
+    if (currentObjective === 0) {
+      setIsDialogOpen(true);
+    }
+  }, []);
+
+  //testing useeffect
+  useEffect(() => {}, []);
+
   //helper function to generate array of 5 elements in random order
-  function generateMissions(array) {
-    var tmp,
-      current,
-      top = array.length;
-    if (top)
-      while (--top) {
-        current = Math.floor(Math.random() * (top + 1));
-        tmp = array[current];
-        array[current] = array[top];
-        array[top] = tmp;
+  function generateMissions() {
+    const arr = [];
+    arr.push(0);
+    while (arr.length < 6) {
+      const num = Math.floor(Math.random() * 8) + 1;
+      if (!arr.includes(num)) {
+        arr.push(num);
       }
-    return array;
+    }
+    return arr;
   }
   //calculate distance between player and objective
   function calculateDistance() {
@@ -176,10 +177,10 @@ export default function MainLayout({ logOutFunc }) {
 
     if (turf.length(line, turfOptions).toFixed(0) < 20) {
       // player is near the objective
-      setIsNearObjective(true);
+      setIsNearMission(true);
       return;
     }
-    setIsNearObjective(false);
+    setIsNearMission(false);
   }
 
   async function handleDialogueText() {
@@ -195,11 +196,11 @@ export default function MainLayout({ logOutFunc }) {
     setCurrentSentenceIndex(0);
     setIsDialogOpen(false);
     if (currentObjective >= 4) {
-      setCurrentObjective(objectives[10]);
+      setCurrentObjective(pickedMissions[10]);
       updateCurrentMission();
       return;
     }
-    setCurrentObjective(objectives[await getNextMission()]);
+    setCurrentObjective(pickedMissions[(await getCurrentMission()) + 1]);
     updateCurrentMission();
   }
 
@@ -208,17 +209,12 @@ export default function MainLayout({ logOutFunc }) {
     setIsDialogOpen(true);
   }
 
-  //handler for button confirming the next item has been picked up
-  function nextObjectiveHandler() {
-    setIsDialogOpen(true);
-  }
-
   function handleIsProfileMenuOpen() {
     setIsProfileMenuOpen(!isProfileMenuOpen);
   }
 
-  //get next mission from database
-  async function getNextMission() {
+  //get current mission from database
+  async function getCurrentMission() {
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -226,22 +222,30 @@ export default function MainLayout({ logOutFunc }) {
       .from("main_data")
       .select("current_mission")
       .eq("player_id", user.id);
-    const a = result.data[0].current_mission + 1;
-    return a;
+    return result.data[0].current_mission;
   }
 
+  //update current mission in database
   async function updateCurrentMission() {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    const result = await supabase
-      .from("main_data")
-      .select("current_mission")
-      .eq("player_id", user.id);
+    const currentMission = await getCurrentMission();
     await supabase
       .from("main_data")
-      .update({ current_mission: result.data[0].current_mission + 1 })
+      .update({ current_mission: currentMission + 1 })
       .eq("player_id", user.id);
+  }
+
+  function flyToHomeButton() {
+    map.current.flyTo({ center: [18.842, 48.59], zoom: 13 });
+  }
+
+  function flyToMarker() {
+    map.current.flyTo({
+      center: [missions[currentObjective].lon, missions[currentObjective].lat],
+      zoom: 14,
+    });
   }
 
   return (
@@ -260,12 +264,12 @@ export default function MainLayout({ logOutFunc }) {
                   className=""
                   onClick={handleDialogueText}
                 ></img>
-                <div className="absolute left-32 top-6 z-30 text-black">
+                <div className="absolute left-[7.2rem] top-6 z-30 text-black">
                   {currectSentence}
                 </div>
               </div>
             )}
-            {isNearObjective && (
+            {isNearMission && (
               <motion.button
                 initial={{ y: 50, x: "-50%" }}
                 animate={{ y: [30, 15, 30] }}
@@ -287,6 +291,8 @@ export default function MainLayout({ logOutFunc }) {
           <GameMenu
             handleIsProfileMenuOpen={handleIsProfileMenuOpen}
             logOutFunc={logOutFunc}
+            homeButton={flyToHomeButton}
+            markerButton={flyToMarker}
           />
         </div>
       </div>

@@ -38,15 +38,15 @@ export default function App() {
   };
 
   return (
-    <div className="w-screen grid place-content-center ">
+    <div className="grid w-screen place-content-center ">
       <div className="">
         {user ? (
           <div className="grid ">
-            <MainLayout logOutFunc={logOut}/>
+            <MainLayout logOutFunc={logOut} />
           </div>
         ) : (
           <div>
-          <LoginPage logInFunc={login} />
+            <LoginPage logInFunc={login} />
           </div>
         )}
       </div>
