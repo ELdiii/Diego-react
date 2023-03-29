@@ -48,6 +48,7 @@ export default function MainLayout({ logOutFunc }) {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+      console.log(user);
 
       if (user) {
         const { data, error } = await supabase
@@ -67,6 +68,7 @@ export default function MainLayout({ logOutFunc }) {
               player_id: user.id,
               picked_missions: generateMissions(),
               current_mission: 0,
+              e_mail: user.email,
             },
           ]);
           return;
@@ -150,10 +152,12 @@ export default function MainLayout({ logOutFunc }) {
     if (currentObjective === 0) {
       setIsDialogOpen(true);
     }
-  }, []);
+  }, [currentObjective]);
 
   //testing useeffect
-  useEffect(() => {}, []);
+  useEffect(() => {
+
+  }, []);
 
   //helper function to generate array of 5 elements in random order
   function generateMissions() {
@@ -195,8 +199,8 @@ export default function MainLayout({ logOutFunc }) {
     //ked skonci dialog
     setCurrentSentenceIndex(0);
     setIsDialogOpen(false);
-    if (currentObjective >= 4) {
-      setCurrentObjective(pickedMissions[10]);
+    if (currentObjective >= 5) {
+      setCurrentObjective(pickedMissions[9]);
       updateCurrentMission();
       return;
     }

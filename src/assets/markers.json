@@ -86,7 +86,10 @@
     "lon": 18.844,
     "desc": "Vyzdvihnúť predment",
     "item": "Dezinfekcia",
-    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
+    "dialogues": [
+      "Vyzdvihol si predmet <Dezinfekcia>.",
+      "Dezinfekcia má za úlohu čistiť rany od malých nečistôt a baktérií."
+    ]
   },
   {
     "name": "Skatepark",
@@ -94,7 +97,10 @@
     "lon": 18.84,
     "desc": "Vyzdvihnúť predment",
     "item": "Defibrilátor",
-    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
+    "dialogues": [
+      "Vyzdvihol si predmet <Defibrilátor>.",
+      "Slúži na obnovenie srdcovej činnosti pomocou elektrických výbojov."
+    ]
   },
   {
     "name": "Nemocnica",
