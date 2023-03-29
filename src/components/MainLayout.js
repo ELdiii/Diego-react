@@ -42,13 +42,17 @@ export default function MainLayout({ logOutFunc }) {
     console.log();
   }, []);
 
+  async function getUser() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    return user;
+  }
+
   //creating data for user in database
   useEffect(() => {
     const fetchData = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      console.log(user);
+      const user = await getUser();
 
       if (user) {
         const { data, error } = await supabase
@@ -157,7 +161,6 @@ export default function MainLayout({ logOutFunc }) {
   //testing useeffect
   useEffect(() => {
     console.log(currentObjective);
-
   }, []);
 
   //helper function to generate array of 5 elements in random order
