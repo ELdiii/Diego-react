@@ -4,7 +4,7 @@ import vlnky from "../assets/vlnky.svg";
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 
-export default function LoginPage({ logInFunc }) {
+export default function LoginPage({ logInGithub, logInGoogle }) {
   return (
     <div className="sm:grid sm:h-screen sm:place-content-center sm:bg-stone-600 w-screen ">
       <div className="h-screen max-w-screen-sm grid-rows-[1fr_auto] bg-main_dark_blue sm:max-h-[800px] sm:w-[450px] flex flex-col">
@@ -14,8 +14,8 @@ export default function LoginPage({ logInFunc }) {
         <img alt="" src={logo} className="h-fit w-1/2 mx-auto mt-12"></img>
         <div className=" text-white text-4xl mx-auto mt-24 ">Login with</div>
         <div className="flex mx-auto gap-6 mt-12">
-          <AiFillGithub className="text-white text-6xl hover:cursor-pointer" onClick={logInFunc}/>
-          <FcGoogle className="text-6xl" />
+          <AiFillGithub className="text-white text-6xl hover:cursor-pointer" onClick={logInGithub}/>
+          <FcGoogle className="text-6xl" onClick={logInGoogle}/>
         </div>
         <img alt="" src={vlnky} className="mt-auto"></img>
       </div>

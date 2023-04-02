@@ -10,28 +10,32 @@ export default function App() {
     const fetchData = async () => {
       const { data } = await supabase.auth.getSession();
       setUser(data?.session.user);
-      const { data: authListener } = supabase.auth.onAuthStateChange(
-        (event, session) => {
-          switch (event) {
-            case "SIGNED_IN":
-              setUser(session.user);
-              break;
-            case "SIGNED_OUT":
-              setUser(null);
-              break;
-            default:
-              setUser(null);
-              break;
-          }
+      supabase.auth.onAuthStateChange((event, session) => {
+        switch (event) {
+          case "SIGNED_IN":
+            setUser(session.user);
+            break;
+          case "SIGNED_OUT":
+            setUser(null);
+            break;
+          default:
+            setUser(null);
+            break;
         }
-      );
+      });
     };
     fetchData();
   }, []);
 
-  const login = async () => {
+  const loginGithub = async () => {
     supabase.auth.signInWithOAuth({ provider: "github" });
   };
+
+  async function logInGoogle() {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+  }
 
   const logOut = async () => {
     await supabase.auth.signOut();
@@ -46,7 +50,7 @@ export default function App() {
           </div>
         ) : (
           <div>
-            <LoginPage logInFunc={login} />
+            <LoginPage logInGithub={loginGithub} logInGoogle={logInGoogle} />
           </div>
         )}
       </div>

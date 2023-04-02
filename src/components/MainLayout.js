@@ -5,7 +5,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import * as turf from "@turf/turf";
 import { motion } from "framer-motion";
 import { ProfileMenu } from "./ProfileMenu";
-import dzedo from "../assets/dzedo.png";
+import npc from "../assets/dzedo.png";
 
 import { supabase } from "../lib/helper/supabaseClient";
 
@@ -159,9 +159,7 @@ export default function MainLayout({ logOutFunc }) {
   }, [currentObjective]);
 
   //testing useeffect
-  useEffect(() => {
-    console.log(currentObjective);
-  }, []);
+  useEffect(() => {}, []);
 
   //helper function to generate array of 5 elements in random order
   function generateMissions() {
@@ -177,7 +175,7 @@ export default function MainLayout({ logOutFunc }) {
     arr.push(10);
     return arr;
   }
-  //calculate distance between player and objective
+  //výpočet vzdialenosti medzi hráčom a bodom kam sa má dostať
   function calculateDistance() {
     let line = turf.lineString([
       [lng, lat],
@@ -185,16 +183,16 @@ export default function MainLayout({ logOutFunc }) {
     ]);
     setDistance(turf.length(line, turfOptions).toFixed(0));
 
+    //ak sa hráč nachádza pri predmete v okruhu 20m
+    //zobrazí sa dialog a možnosť predmet vziať
     if (turf.length(line, turfOptions).toFixed(0) < 20) {
-      // player is near the objective
       setIsNearMission(true);
       return;
     }
     setIsNearMission(false);
   }
 
-  async function handleDialogueText() {
-    //ked je otvoreny dialog > click behavior
+  async function handleDialogueClick() {
     if (currentSentenceIndex < missions[currentObjective].dialogues.length) {
       setCurrentSentenceIndex(currentSentenceIndex + 1);
       setCurrentSentence(
@@ -243,7 +241,7 @@ export default function MainLayout({ logOutFunc }) {
   }
 
   function flyToHomeButton() {
-    map.current.flyTo({ center: [18.842, 48.59], zoom: 13 });
+    map.current.flyTo({ center: [18.842, 48.59], zoom: 14 });
   }
 
   function flyToMarker() {
@@ -262,14 +260,14 @@ export default function MainLayout({ logOutFunc }) {
             className="relative z-0 m-4 mb-[3.6rem] rounded-3xl border-4 border-solid border-main_light_blue"
           >
             {isDialogOpen && (
-              <div className="absolute -left-2 bottom-32 z-20 h-1/2 text-white">
+              <div className="absolute left-0 bottom-0 z-20 text-white">
                 <img
                   alt="pic"
-                  src={dzedo}
+                  src={npc}
                   className=""
-                  onClick={handleDialogueText}
+                  onClick={handleDialogueClick}
                 ></img>
-                <div className="absolute left-[7.2rem] top-6 z-30 text-black">
+                <div className="absolute left-[37%] right-[7%] top-[5%] z-30 text-black">
                   {currectSentence}
                 </div>
               </div>
@@ -289,7 +287,7 @@ export default function MainLayout({ logOutFunc }) {
               isOpen={isProfileMenuOpen}
               currentObjective={missions[currentObjective]}
             />
-            <div className="absolute top-4 left-2 z-10 rounded-xl border-4 border-solid border-main_light_blue bg-main_dark_blue p-2 px-3 text-xs font-bold text-white">
+            <div className="w-64 absolute top-4 left-2 z-10 rounded-xl border-4 border-solid border-main_light_blue bg-main_dark_blue p-2 px-3 text-xs font-bold text-white">
               {`Current Objective: ${missions[currentObjective].name} (${distance} m)`}
             </div>
           </div>
