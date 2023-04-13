@@ -154,9 +154,11 @@ export default function MainLayout({ logOutFunc }) {
   }, [currentObjective]);
 
   useEffect(() => {
-    if (currentObjective === 0) {
-      setIsDialogOpen(true);
-    }
+    setTimeout(() => {
+      if (currentObjective === 0) {
+        setIsDialogOpen(true);
+      }
+    }, 1000);
   }, [currentObjective]);
 
   async function getUser() {
