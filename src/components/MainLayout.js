@@ -160,7 +160,7 @@ export default function MainLayout({ logOutFunc }) {
 
   //testing useeffect
   useEffect(() => {
-    console.log("test" + currentObjective)
+    console.log("test" + currentObjective);
   }, []);
 
   //helper function to generate array of 5 elements in random order
@@ -287,7 +287,7 @@ export default function MainLayout({ logOutFunc }) {
             )}
             <ProfileMenu
               isOpen={isProfileMenuOpen}
-              currentObjective={currentObjective}
+              
               allObjectives={pickedMissions}
             />
             <div className="max-w-64 absolute top-4 left-2 z-10 rounded-xl border-4 border-solid border-main_light_blue bg-main_dark_blue p-2 px-3 text-xs font-bold text-white">

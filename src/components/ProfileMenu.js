@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "../lib/helper/supabaseClient";
 
-export function ProfileMenu({ isOpen, currentObjective, allObjectives }) {
+export function ProfileMenu({ isOpen, allObjectives }) {
   const [isOpenState, setIsOpenState] = useState(isOpen);
   let pickedMissions = useRef([]);
   let items = useRef([]);
@@ -55,7 +55,7 @@ export function ProfileMenu({ isOpen, currentObjective, allObjectives }) {
         ></img>
         <div>
           <div className="text-bold text-2xl">Diego</div>
-          <div className="text-sm">{`Úloha: ${currentObjective}`}</div>
+          <div className="text-sm">{`Úloha: ${items.current.length + 1}`}</div>
         </div>
       </div>
       <div className="mt-6 flex w-full items-center justify-center gap-4">
