@@ -61,7 +61,11 @@ export function ProfileMenu({ isOpen, currentObjective, allObjectives }) {
       <div className="mt-6 flex w-full items-center justify-center gap-4">
         <div className="flex flex-col">
           <span className="text-lg text-red-500">Pozbierané predmety:</span>
-          <span>{`${items.current}`}</span>
+          <div className="flex flex-col">
+            {items.current.map((item) => {
+              return <span>{item}</span>;
+            })}
+          </div>
         </div>
       </div>
     </motion.div>
