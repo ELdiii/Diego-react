@@ -12,7 +12,7 @@ export default function LoginPage({ logInGithub, logInGoogle }) {
           Diego's Journey
         </div>
         <img alt="" src={logo} className="h-fit w-1/2 mx-auto mt-12"></img>
-        <div className=" text-white text-4xl mx-auto mt-24 ">Login with</div>
+        <div className=" text-white text-4xl mx-auto mt-24 ">Prihlásiť sa</div>
         <div className="flex mx-auto gap-6 mt-12">
           <AiFillGithub className="text-white text-6xl hover:cursor-pointer" onClick={logInGithub}/>
           <FcGoogle className="text-6xl" onClick={logInGoogle}/>

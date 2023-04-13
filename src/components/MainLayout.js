@@ -34,7 +34,7 @@ export default function MainLayout({ logOutFunc }) {
   const missions = require("../assets/markers.json");
 
   const [currectSentence, setCurrentSentence] = useState(
-    "<Press the screen to start dialogue>"
+    "<Stlač obrazovku pre spustenie dialógu>"
   );
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
 
@@ -159,7 +159,9 @@ export default function MainLayout({ logOutFunc }) {
   }, [currentObjective]);
 
   //testing useeffect
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("test" + currentObjective)
+  }, []);
 
   //helper function to generate array of 5 elements in random order
   function generateMissions() {
@@ -280,15 +282,16 @@ export default function MainLayout({ logOutFunc }) {
                 className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2 rounded-xl border-4 border-solid border-main_light_blue bg-gradient-to-r from-orange-400 to-yellow-400 px-6 pb-8 pt-2 font-black text-black will-change-transform"
                 onClick={deliveryButtonHandler}
               >
-                Pick up the item
+                Vyzdvihnúť predmet
               </motion.button>
             )}
             <ProfileMenu
               isOpen={isProfileMenuOpen}
-              currentObjective={missions[currentObjective]}
+              currentObjective={currentObjective}
+              allObjectives={pickedMissions}
             />
-            <div className="w-64 absolute top-4 left-2 z-10 rounded-xl border-4 border-solid border-main_light_blue bg-main_dark_blue p-2 px-3 text-xs font-bold text-white">
-              {`Current Objective: ${missions[currentObjective].name} (${distance} m)`}
+            <div className="max-w-64 absolute top-4 left-2 z-10 rounded-xl border-4 border-solid border-main_light_blue bg-main_dark_blue p-2 px-3 text-xs font-bold text-white">
+              {`Ďalší predmet: ${missions[currentObjective].name} (${distance} m)`}
             </div>
           </div>
           <GameMenu

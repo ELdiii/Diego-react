@@ -1,13 +1,43 @@
 import pfp from "../assets/Diego_mugshot.png";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { supabase } from "../lib/helper/supabaseClient";
 
-export function ProfileMenu({ isOpen, currentObjective }) {
+export function ProfileMenu({ isOpen, currentObjective, allObjectives }) {
   const [isOpenState, setIsOpenState] = useState(isOpen);
+  let pickedMissions = useRef([]);
+  let items = useRef([]);
+  const missions = require("../assets/markers.json");
 
   useEffect(() => {
     setIsOpenState(isOpen);
   }, [isOpen]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const currentMissionIndex = await getCurrentMission();
+      pickedMissions.current = allObjectives;
+      console.log(pickedMissions);
+      console.log("curr " + currentMissionIndex);
+      items.current = [];
+      for (let i = 1; i <= currentMissionIndex - 1; i++) {
+        items.current.push(missions[pickedMissions.current[i]].item);
+      }
+    };
+
+    fetchData();
+  }, [allObjectives, missions]);
+
+  async function getCurrentMission() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    const result = await supabase
+      .from("main_data")
+      .select("current_mission")
+      .eq("player_id", user.id);
+    return result.data[0].current_mission;
+  }
 
   return (
     <motion.div
@@ -25,11 +55,15 @@ export function ProfileMenu({ isOpen, currentObjective }) {
         ></img>
         <div>
           <div className="text-bold text-2xl">Diego</div>
-          <div className="text-sm">Level: 1</div>
+          <div className="text-sm">{`Úloha: ${currentObjective}`}</div>
         </div>
       </div>
-      <div className="mx-auto pt-6 text-sm">Distance walked: 1.2 km</div>
-      <div className="mx-auto max-w-[160px] pt-6"><span className="text-red-500">Current objective:</span> {currentObjective.about}</div>
+      <div className="mt-6 flex w-full items-center justify-center gap-4">
+        <div className="flex flex-col">
+          <span className="text-lg text-red-500">Pozbierané predmety:</span>
+          <span>{`${items.current}`}</span>
+        </div>
+      </div>
     </motion.div>
   );
 }
