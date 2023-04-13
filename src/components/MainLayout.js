@@ -138,6 +138,18 @@ export default function MainLayout({ logOutFunc }) {
     };
   }, [currentObjective, missions]);
 
+  useEffect(() => {
+    if (!map.current) return;
+    const marker = new mapboxgl.Marker({
+      color: "#f1f1f1",
+      scale: 0.8,
+      anchor: "bottom",
+      rotation: 22.5,
+    })
+      .setLngLat([18.842, 48.59])
+      .addTo(map.current);
+  }, []);
+
   //set zoom for map
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
@@ -287,7 +299,6 @@ export default function MainLayout({ logOutFunc }) {
             )}
             <ProfileMenu
               isOpen={isProfileMenuOpen}
-              
               allObjectives={pickedMissions}
             />
             <div className="max-w-64 absolute top-4 left-2 z-10 rounded-xl border-4 border-solid border-main_light_blue bg-main_dark_blue p-2 px-3 text-xs font-bold text-white">
