@@ -38,17 +38,6 @@ export default function MainLayout({ logOutFunc }) {
   );
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
 
-  useEffect(() => {
-    console.log();
-  }, []);
-
-  async function getUser() {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    return user;
-  }
-
   //creating data for user in database
   useEffect(() => {
     const fetchData = async () => {
@@ -140,7 +129,7 @@ export default function MainLayout({ logOutFunc }) {
 
   useEffect(() => {
     if (!map.current) return;
-    const marker = new mapboxgl.Marker({
+    new mapboxgl.Marker({
       color: "#f1f1f1",
       scale: 0.8,
       anchor: "bottom",
@@ -170,10 +159,12 @@ export default function MainLayout({ logOutFunc }) {
     }
   }, [currentObjective]);
 
-  //testing useeffect
-  useEffect(() => {
-    console.log("test" + currentObjective);
-  }, []);
+  async function getUser() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    return user;
+  }
 
   //helper function to generate array of 5 elements in random order
   function generateMissions() {
@@ -301,7 +292,7 @@ export default function MainLayout({ logOutFunc }) {
               isOpen={isProfileMenuOpen}
               allObjectives={pickedMissions}
             />
-            <div className="max-w-64 absolute top-4 left-2 z-10 rounded-xl border-4 border-solid border-main_light_blue bg-main_dark_blue p-2 px-3 text-xs font-bold text-white">
+            <div className="absolute top-4 left-2 z-10 max-w-[16rem] rounded-xl border-4 border-solid border-main_light_blue bg-main_dark_blue p-2 px-3 text-xs font-bold text-white">
               {`Ďalší predmet: ${missions[currentObjective].name} (${distance} m)`}
             </div>
           </div>

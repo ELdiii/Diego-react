@@ -17,8 +17,6 @@ export function ProfileMenu({ isOpen, allObjectives }) {
     const fetchData = async () => {
       const currentMissionIndex = await getCurrentMission();
       pickedMissions.current = allObjectives;
-      console.log(pickedMissions);
-      console.log("curr " + currentMissionIndex);
       items.current = [];
       for (let i = 1; i <= currentMissionIndex - 1; i++) {
         items.current.push(missions[pickedMissions.current[i]].item);
