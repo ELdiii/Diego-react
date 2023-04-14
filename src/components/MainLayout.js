@@ -158,7 +158,7 @@ export default function MainLayout({ logOutFunc }) {
       if (currentObjective === 0) {
         setIsDialogOpen(true);
       }
-    }, 1000);
+    }, 2000);
   }, [currentObjective]);
 
   async function getUser() {
