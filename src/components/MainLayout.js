@@ -56,14 +56,17 @@ export default function MainLayout({ logOutFunc }) {
 
         // this will only run if the user doesnt have a record in the main database
         if (data.length === 0) {
+          const generatedmissions = generateMissions();
           await supabase.from("main_data").insert([
             {
               player_id: user.id,
-              picked_missions: generateMissions(),
+              picked_missions: generatedmissions,
               current_mission: 0,
               e_mail: user.email,
             },
           ]);
+          setPickedMissions(generatedmissions);
+          setCurrentObjective(0);
           return;
         }
         // this will run if the user has a record in the main database
