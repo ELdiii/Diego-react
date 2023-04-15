@@ -108,7 +108,11 @@
     "lon": 18.842,
     "desc": "Odovzdať nazbierané predmety",
     "item": "",
-    "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
+    "dialogues": [
+      "Diego, za celú nemocnicu ti chceme poďakovať za zozbieranie všetkých zdravotných predmetov.",
+      "Bez teba by táto nemocnica momentálne nemohla fungovať.",
+      "Na tvoju hrdinskú pomoc nikdy nezabudneme."
+    ]
   },
   {
     "name": "GAME ENDED",
