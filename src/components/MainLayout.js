@@ -6,6 +6,7 @@ import * as turf from "@turf/turf";
 import { motion } from "framer-motion";
 import { ProfileMenu } from "./ProfileMenu";
 import npc from "../assets/dzedo.png";
+import doctor from "../assets/vendelin.png";
 
 import { supabase } from "../lib/helper/supabaseClient";
 
@@ -157,11 +158,10 @@ export default function MainLayout({ logOutFunc }) {
   }, [currentObjective]);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (currentObjective === 0) {
-        setIsDialogOpen(true);
-      }
-    }, 2000);
+    if (currentObjective === 0) {
+      setIsDialogOpen(true);
+      return;
+    }
   }, [currentObjective]);
 
   async function getUser() {
@@ -273,7 +273,7 @@ export default function MainLayout({ logOutFunc }) {
               <div className="absolute left-0 bottom-0 z-20 text-white">
                 <img
                   alt="pic"
-                  src={npc}
+                  src={currentObjective === 9 ? doctor : npc}
                   className=""
                   onClick={handleDialogueClick}
                 ></img>
@@ -290,7 +290,9 @@ export default function MainLayout({ logOutFunc }) {
                 className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2 rounded-xl border-4 border-solid border-main_light_blue bg-gradient-to-r from-orange-400 to-yellow-400 px-6 pb-8 pt-2 font-black text-black will-change-transform"
                 onClick={deliveryButtonHandler}
               >
-                Vyzdvihnúť predmet
+                {currentObjective === 9
+                  ? "Odovzdať predmety"
+                  : "Vyzdvihnúť predmet"}
               </motion.button>
             )}
             <ProfileMenu

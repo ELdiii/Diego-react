@@ -107,7 +107,7 @@
     "lat": 48.59,
     "lon": 18.842,
     "desc": "Odovzdať nazbierané predmety",
-    "item": "none",
+    "item": "",
     "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
   },
   {
@@ -115,7 +115,7 @@
     "lat": 48,
     "lon": 18,
     "desc": "Odovzdať nazbierané predmety",
-    "item": "none",
+    "item": "",
     "dialogues": ["Dialog1", "Dialog2", "Dialog3", "Dialog4"]
   }
 ]
