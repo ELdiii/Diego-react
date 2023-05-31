@@ -34,9 +34,7 @@ export default function MainLayout({ logOutFunc }) {
   //markers json
   const missions = require("../assets/markers.json");
 
-  const [currectSentence, setCurrentSentence] = useState(
-    "<Stlač obrazovku pre spustenie dialógu>"
-  );
+  const [currectSentence, setCurrentSentence] = useState("<Stlač obrazovku pre spustenie dialógu>");
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
 
   //creating data for user in database
@@ -45,10 +43,7 @@ export default function MainLayout({ logOutFunc }) {
       const user = await getUser();
 
       if (user) {
-        const { data, error } = await supabase
-          .from("main_data")
-          .select("*")
-          .eq("player_id", user.id);
+        const { data, error } = await supabase.from("main_data").select("*").eq("player_id", user.id);
 
         if (error) {
           console.log(error);
@@ -120,10 +115,7 @@ export default function MainLayout({ logOutFunc }) {
       anchor: "bottom",
       rotation: 22.5,
     })
-      .setLngLat([
-        missions[currentObjective].lon,
-        missions[currentObjective].lat,
-      ])
+      .setLngLat([missions[currentObjective].lon, missions[currentObjective].lat])
       .addTo(map.current);
     //remove last marker on re-render
     return () => {
@@ -195,7 +187,7 @@ export default function MainLayout({ logOutFunc }) {
 
     //ak sa hráč nachádza pri predmete v okruhu 20m
     //zobrazí sa dialog a možnosť predmet vziať
-    if (turf.length(line, turfOptions).toFixed(0) < 20) {
+    if (turf.length(line, turfOptions).toFixed(0) < 35) {
       setIsNearMission(true);
       return;
     }
@@ -205,9 +197,7 @@ export default function MainLayout({ logOutFunc }) {
   async function handleDialogueClick() {
     if (currentSentenceIndex < missions[currentObjective].dialogues.length) {
       setCurrentSentenceIndex(currentSentenceIndex + 1);
-      setCurrentSentence(
-        missions[currentObjective].dialogues[currentSentenceIndex]
-      );
+      setCurrentSentence(missions[currentObjective].dialogues[currentSentenceIndex]);
       return;
     }
     //ked skonci dialog
@@ -231,10 +221,7 @@ export default function MainLayout({ logOutFunc }) {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    const result = await supabase
-      .from("main_data")
-      .select("current_mission")
-      .eq("player_id", user.id);
+    const result = await supabase.from("main_data").select("current_mission").eq("player_id", user.id);
     return result.data[0].current_mission;
   }
 
@@ -267,16 +254,14 @@ export default function MainLayout({ logOutFunc }) {
         <div className="relative grid h-screen max-w-screen-sm grid-rows-[1fr_auto] bg-main_dark_blue sm:max-h-[800px] sm:w-[450px]">
           <div
             ref={mapContainer}
-            className="relative z-0 m-4 mb-[3.6rem] rounded-3xl border-4 border-solid border-main_light_blue"
-          >
+            className="relative z-0 m-4 mb-[3.6rem] rounded-3xl border-4 border-solid border-main_light_blue">
             {isDialogOpen && (
               <div className="absolute left-0 bottom-0 z-20 text-white">
                 <img
                   alt="pic"
                   src={currentObjective === 9 ? doctor : npc}
                   className=""
-                  onClick={handleDialogueClick}
-                ></img>
+                  onClick={handleDialogueClick}></img>
                 <div className="absolute left-[37%] right-[7%] top-[5%] z-30 text-black">
                   {currectSentence}
                 </div>
@@ -288,17 +273,11 @@ export default function MainLayout({ logOutFunc }) {
                 animate={{ y: [30, 15, 30] }}
                 transition={{ duration: 2, repeat: Infinity }}
                 className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2 rounded-xl border-4 border-solid border-main_light_blue bg-gradient-to-r from-orange-400 to-yellow-400 px-6 pb-8 pt-2 font-black text-black will-change-transform"
-                onClick={deliveryButtonHandler}
-              >
-                {currentObjective === 9
-                  ? "Odovzdať predmety"
-                  : "Vyzdvihnúť predmet"}
+                onClick={deliveryButtonHandler}>
+                {currentObjective === 9 ? "Odovzdať predmety" : "Vyzdvihnúť predmet"}
               </motion.button>
             )}
-            <ProfileMenu
-              isOpen={isProfileMenuOpen}
-              allObjectives={pickedMissions}
-            />
+            <ProfileMenu isOpen={isProfileMenuOpen} allObjectives={pickedMissions} />
             <div className="absolute top-4 left-2 z-10 max-w-[16rem] rounded-xl border-4 border-solid border-main_light_blue bg-main_dark_blue p-2 px-3 text-xs font-bold text-white">
               {`Ďalší predmet: ${missions[currentObjective].name} (${distance} m)`}
             </div>
