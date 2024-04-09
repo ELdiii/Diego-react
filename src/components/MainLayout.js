@@ -187,7 +187,7 @@ export default function MainLayout({ logOutFunc }) {
 
     //ak sa hráč nachádza pri predmete v okruhu 20m
     //zobrazí sa dialog a možnosť predmet vziať
-    if (turf.length(line, turfOptions).toFixed(0) < 35) {
+    if (turf.length(line, turfOptions).toFixed(0) < 70) {
       setIsNearMission(true);
       return;
     }
