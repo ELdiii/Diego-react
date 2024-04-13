@@ -60,8 +60,8 @@ export function ProfileMenu({ isOpen, allObjectives }) {
         <div className="flex flex-col">
           <span className="text-lg text-red-500">Pozbierané predmety:</span>
           <div className="flex flex-col">
-            {items.current.map((item) => {
-              return <span>{item}</span>;
+            {items.current.map((item, i) => {
+              return <span key={i}>{item}</span>;
             })}
           </div>
         </div>
