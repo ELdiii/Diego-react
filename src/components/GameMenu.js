@@ -7,7 +7,7 @@ export default function GameMenu({
   markerButton,
 }) {
   return (
-    <ul className=" absolute bottom-8 left-1/2 mx-auto mb-5 flex w-full max-w-xs -translate-x-1/2 items-center justify-around rounded-3xl border-4 border-main_light_blue bg-gradient-to-r from-orange-400 to-yellow-400 p-3">
+    <ul className=" absolute bottom-2 left-1/2 mx-auto mb-5 flex w-full max-w-xs -translate-x-1/2 items-center justify-around rounded-3xl border-4 border-main_light_blue bg-gradient-to-r from-orange-400 to-yellow-400 p-3">
       <li>
         <BiHome className="text-4xl" onClick={homeButton} />
       </li>

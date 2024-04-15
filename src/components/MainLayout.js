@@ -256,7 +256,7 @@ export default function MainLayout({ logOutFunc }) {
         <div className="relative grid h-screen max-w-screen-sm grid-rows-[1fr_auto] bg-main_dark_blue sm:max-h-[800px] sm:w-[450px]">
           <div
             ref={mapContainer}
-            className="relative z-0 m-4 mb-[5rem] mt-[5rem] rounded-3xl border-4 border-solid border-main_light_blue">
+            className="relative z-0 m-4 mb-[3.6] rounded-3xl border-4 border-solid border-main_light_blue">
             {isDialogOpen && (
               <div className="absolute left-0 bottom-0 z-20 text-white">
                 <img
