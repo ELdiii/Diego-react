@@ -269,7 +269,7 @@ export default function MainLayout({ logOutFunc }) {
                 </div>
               </div>
             )}
-            {isNearMission && (
+            {isNearMission && !isDialogOpen && (
               <motion.button
                 initial={{ y: 50, x: "-50%" }}
                 animate={{ y: [30, 15, 30] }}
@@ -279,7 +279,7 @@ export default function MainLayout({ logOutFunc }) {
                 {currentObjective === 9 ? "Odovzdať predmety" : "Vyzdvihnúť predmet"}
               </motion.button>
             )}
-            <ProfileMenu isOpen={isProfileMenuOpen} allObjectives={pickedMissions} currentObjective={currentObjective}/>
+            <ProfileMenu isOpen={isProfileMenuOpen} allObjectives={pickedMissions} currentObjective={ currentObjective}/>
             <div className="absolute top-4 left-2 z-10 max-w-[16rem] rounded-xl border-4 border-solid border-main_light_blue bg-main_dark_blue p-2 px-3 text-xs font-bold text-white">
               {`Ďalší predmet: ${missions[currentObjective].name} (${distance} m)`}
             </div>

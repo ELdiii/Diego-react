@@ -1,41 +1,33 @@
 import pfp from "../assets/Diego_mugshot.png";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { supabase } from "../lib/helper/supabaseClient";
+import { useEffect, useState } from "react";
 
-export function ProfileMenu({ isOpen, allObjectives }) {
+export function ProfileMenu({ isOpen, allObjectives, currentObjective }) {
   const [isOpenState, setIsOpenState] = useState(isOpen);
-  let pickedMissions = useRef([]);
-  let items = useRef([]);
+  const [items, setItems] = useState([]);
+  
   const missions = require("../assets/markers.json");
+
+
+  useEffect(() => {
+
+    setItems([]);
+
+    const index = allObjectives.indexOf(currentObjective);
+    console.log(index)
+    const arrP = []
+    for (let i = 1; i < index;i++) {
+      if (i < index) {
+        let currentItem = missions[allObjectives[i]].item
+        arrP.push(currentItem)
+      }
+    }
+    setItems(arrP)
+  }, [currentObjective, isOpen]);
 
   useEffect(() => {
     setIsOpenState(isOpen);
   }, [isOpen]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const currentMissionIndex = await getCurrentMission();
-      pickedMissions.current = allObjectives;
-      items.current = [];
-      for (let i = 1; i <= currentMissionIndex - 1; i++) {
-        items.current.push(missions[pickedMissions.current[i]].item);
-      }
-    };
-
-    fetchData();
-  }, [allObjectives, missions]);
-
-  async function getCurrentMission() {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    const result = await supabase
-      .from("main_data")
-      .select("current_mission")
-      .eq("player_id", user.id);
-    return result.data[0].current_mission;
-  }
 
   return (
     <motion.div
@@ -53,15 +45,15 @@ export function ProfileMenu({ isOpen, allObjectives }) {
         ></img>
         <div>
           <div className="text-bold text-2xl">Diego</div>
-          <div className="text-sm">{`Úloha: ${items.current.length + 1}`}</div>
+          <div className="text-sm">{`Úloha: ${items.length+1}`}</div>
         </div>
       </div>
       <div className="mt-6 flex w-full items-center justify-center gap-4">
         <div className="flex flex-col">
           <span className="text-lg text-red-500">Pozbierané predmety:</span>
           <div className="flex flex-col">
-            {items.current.map((item, i) => {
-              return <span key={i}>{item}</span>;
+            {items.map((item, i)=> {
+              return <span key={i} className="text-sm text-white">{item}</span>
             })}
           </div>
         </div>
