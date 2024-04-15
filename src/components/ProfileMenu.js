@@ -23,6 +23,7 @@ export function ProfileMenu({ isOpen, allObjectives, currentObjective }) {
       }
     }
     setItems(arrP)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentObjective, isOpen]);
 
   useEffect(() => {
