@@ -5,7 +5,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import * as turf from "@turf/turf";
 import { motion } from "framer-motion";
 import { ProfileMenu } from "./ProfileMenu";
-import npc from "../assets/dzedo.png";
+import npc from "../assets/jozef.png";
 import doctor from "../assets/vendelin.png";
 
 import { supabase } from "../lib/helper/supabaseClient";
