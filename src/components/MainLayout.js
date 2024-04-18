@@ -28,6 +28,7 @@ export default function MainLayout({ logOutFunc }) {
   const [distance, setDistance] = useState(0);
   const [isNearMission, setIsNearMission] = useState(false);
 
+  //boolean states
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
