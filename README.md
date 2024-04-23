@@ -36,7 +36,7 @@ Nemocnica | 48.590 | 18.842
 ### Video Preview
 
 <video width="350" height="270" controls>
-  <source src="./src/assets/md_assets/video_demo.mp4" type="video/mp4">
+  <source src="https://private-user-images.githubusercontent.com/61242261/324786868-90a8ebef-0363-4592-be29-3b5a82f2f257.mp4?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTM4NjY4NDMsIm5iZiI6MTcxMzg2NjU0MywicGF0aCI6Ii82MTI0MjI2MS8zMjQ3ODY4NjgtOTBhOGViZWYtMDM2My00NTkyLWJlMjktM2I1YTgyZjJmMjU3Lm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA0MjMlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwNDIzVDEwMDIyM1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPThhMTQ3MDM5YzYzOTQ3YTNmMTNjYWIxYjhlYmVjMDZlMGEwYjQyNThjOWVhMjM2ZmNjZGNkYWQ5NmRkMTdhZTgmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.nFApUfekUwzqZ1gReuwhaUnMVTxE_aP7iKzq0CBZ15o" type="video/mp4">
 </video>
 
 ### Live Preview
