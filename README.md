@@ -22,6 +22,8 @@ Login Page             |  Game menu          | Dialogue screen
 
 To test the game for yourself withtout the need to visit the specified location with your phone add these points into the Sensor menu in Chrome developer tools.
 
+**In order to play the game most comfortably please create a shortcut on your home page.**
+
 Name | LAT | LON
 :-: | :-: | :-:
 Plážové kúpalisko | 48.586 | 18.867
